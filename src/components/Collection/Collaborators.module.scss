@@ -1,0 +1,27 @@
+#container {
+  flex: 1 0 50%;
+  background-color: #ff9999;
+  padding: 20px;
+  display: flex;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0 calc(20% - 40px);
+
+    > label {
+      margin-top: 15px;
+    }
+
+    > div > label {
+      margin-right: 15px;
+    }
+  }
+
+  > textarea {
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1 0 calc(80% - 40px);
+  }
+}
