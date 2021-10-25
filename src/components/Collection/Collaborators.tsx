@@ -1,6 +1,13 @@
 import styles from './Collaborators.module.scss'
 
-const Collaborators = () => {
+import { Dispatch, SetStateAction } from 'react'
+import { IUser } from '../../interfaces'
+
+interface Props {
+  setAuthor: Dispatch<SetStateAction<IUser | undefined>>
+}
+
+const Collaborators = ({ setAuthor }: Props) => {
   return (
     <section id={styles.container}>
       <div>

@@ -50,6 +50,7 @@ const CreateItems = () => {
     // console.log(response.data)
 
     if (query.get("append") === "true") {
+      // add data
       history.push("/add_collection")
     }
 
