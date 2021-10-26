@@ -20,11 +20,10 @@ function Collection() {
   const [items, setItems] = useState<IVocab[]>()
   const [description, setDescription] = useState<string>("")
 
+  // if form complete, send all necessary info to server
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     // form not complete, leave
     if (!name || !authorName || !authorEmail || !lang || !items || !description) return
-
-    console.log("running");
 
     const collection: ICollection = {
       author: {
@@ -41,15 +40,16 @@ function Collection() {
       name,
       id: "", // ID will get assigned on server
     }
-    // this won't work until the backend is implemented
 
     try {
+      // this won't work until the backend is implemented
       const response = axios.post("/insert_collection", collection)
       console.log(response)
     } catch (err) {
       console.log(err)
     }
 
+    // clear all data on browser now that collection is submitted
     localStorage.clear()
     setAuthorEmail("")
     setAuthorName("")
@@ -59,6 +59,8 @@ function Collection() {
     setName("")
   }
   
+  // check if any cached data already since we may be coming back from the add
+  // items page, then set state of all fields so that they are pre-filled
   useEffect(() => {
     const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
     if (data.name) setName(data.name)
@@ -69,6 +71,7 @@ function Collection() {
     if (data.description) setDescription(data.description)
   }, [])
 
+  // update cached data with field values
   useEffect(() => {
     const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
     data.name = name ?? undefined

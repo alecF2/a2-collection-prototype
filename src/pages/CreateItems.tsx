@@ -35,6 +35,7 @@ const CreateItems = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
+    //  FROM A1
     // const form = new FormData()
     // form.append("language", language)
     // form.append("word", word)
@@ -44,11 +45,12 @@ const CreateItems = () => {
     // form.append("image", image as Blob)
     // form.append("pronunciation", pronunciation as Blob)
 
-
-
     // const response = await axios.post("http://localhost:4000/add_item", form)
     // console.log(response.data)
 
+    // check for query param, this means that we came from the add collections
+    // page and we want to add to the current collection instead of just
+    // creating a new vocab word
     if (query.get("append") === "true") {
       // add data
       const newItem: IVocab = {
@@ -58,6 +60,7 @@ const CreateItems = () => {
         id: "" // assigned on server
       }
 
+      // get cached data if any
       const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
       console.log(data)
 
@@ -67,20 +70,15 @@ const CreateItems = () => {
         data.items = [newItem]
       }
 
+      // update cached data with newly added vocab
       localStorage.setItem("state", JSON.stringify(data))
 
+      // go back to add collection page
       history.push("/add_collection")
     }
 
     // console.log("submitted")
   }
-
-  // useEffect(() => {
-  //   console.log(query.get("append") === "true")
-  // }, [])
-
-  // useEffect(() => {
-  // }, [language, word, translation, example, imageDesc, image, pronunciation])
 
   return (
     <>
