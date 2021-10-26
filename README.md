@@ -12,7 +12,7 @@ As of now this prototype is front-end only.
 
 ### Steps
 
-* clone directory
+* clone respository
 * cd into root folder
 * `yarn start`
 * browser should open up at http://localhost:3000
