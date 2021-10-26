@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 const AddOrCreateItem = () => {
   return (
     <section id={styles.container}>
-      <button>Add an Existing Item</button>
+      {/* not sure if adding existing item functionality is needed */}
+      {/* <button>Add an Existing Item</button> */}
       <Link to="/add_items?append=true">
         <button>Create a new Item</button>
       </Link>

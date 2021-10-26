@@ -4,7 +4,7 @@
   padding: 20px;
   display: flex;
 
-  > div {
+  > div:first-of-type {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -19,9 +19,20 @@
     }
   }
 
-  > textarea {
-    padding: 15px;
-    border-radius: 5px;
+  > div:last-of-type {
     flex: 1 0 calc(80% - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    > textarea, input {
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    > input:first-of-type {
+      margin-bottom: 10px;
+    }
   }
+
 }

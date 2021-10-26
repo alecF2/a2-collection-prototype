@@ -7,43 +7,98 @@ import PublicCheck from '../components/Collection/PublicCheck'
 
 import styles from './Collection.module.scss'
 
-import { ELanguage, ICollection, IUser, IVocab } from '../interfaces'
+import { ELanguage, ICollection, IVocab } from '../interfaces'
 
-import { useState, useEffect } from 'react'
-
-export interface ICollectionPlus extends ICollection {
-  name: string
-}
+import { useState, useEffect, MouseEvent } from 'react'
+import axios from 'axios'
 
 function Collection() {
-  const [language, setLanguage] = useState<ELanguage>()
+  const [lang, setLang] = useState<ELanguage>()
   const [name, setName] = useState<string>("")
-  const [author, setAuthor] = useState<IUser>()
+  const [authorName, setAuthorName] = useState<string>("")
+  const [authorEmail, setAuthorEmail] = useState<string>("")
   const [items, setItems] = useState<IVocab[]>()
+  const [description, setDescription] = useState<string>("")
+
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    // form not complete, leave
+    if (!name || !authorName || !authorEmail || !lang || !items || !description) return
+
+    console.log("running");
+
+    const collection: ICollection = {
+      author: {
+        email: {
+          address: authorEmail
+        },
+        name: authorName,
+        rank: 3, // default to creator for now
+        id: "" // ID will get assigned on server
+      },
+      description,
+      items,
+      lang,
+      name,
+      id: "", // ID will get assigned on server
+    }
+    // this won't work until the backend is implemented
+
+    try {
+      const response = axios.post("/insert_collection", collection)
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
+
+    localStorage.clear()
+    setAuthorEmail("")
+    setAuthorName("")
+    setDescription("")
+    setItems(undefined)
+    setLang(undefined)
+    setName("")
+  }
+  
+  useEffect(() => {
+    const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
+    if (data.name) setName(data.name)
+    if (data.lang) setLang(data.lang)
+    if (data.authorName) setAuthorName(data.authorName)
+    if (data.authorEmail) setAuthorEmail(data.authorEmail)
+    if (data.items) setItems(data.items)
+    if (data.description) setDescription(data.description)
+  }, [])
 
   useEffect(() => {
-    // console.log(ELanguage.english)
-    console.log({ name, language })
-  }, [name, language])
+    const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
+    data.name = name ?? undefined
+    data.lang = lang ?? undefined
+    data.authorName = authorName ?? undefined
+    data.authorEmail =  authorEmail ?? undefined
+    data.items = items ?? undefined
+    data.description = description ?? undefined
+
+    localStorage.setItem("state", JSON.stringify(data))
+  }, [name, lang, authorName, authorEmail, items, description])
 
   return (
     <main id={styles.container}>
       <div id={styles.row1}>
-        <LanguageAndNameInput setName={setName} setLanguage={setLanguage} />
+        <LanguageAndNameInput name={name} setName={setName} lang={lang} setLang={setLang} />
         <div>
           <PublicCheck />
-          <Collaborators setAuthor={setAuthor} />
+          <Collaborators authorName={authorName} setAuthorName={setAuthorName} authorEmail={authorEmail} setAuthorEmail={setAuthorEmail} />
         </div>
       </div>
       <hr />
       <div id={styles.row2}>
         <AddOrCreateItem />
-        <Description />
+        <Description description={description} setDescription={setDescription} />
       </div>
       <hr />
-      <CurrentCollectionItems />
+      <CurrentCollectionItems items={items} setItems={setItems} />
       <div id={styles.submitRow}>
-        <button>Finish Collection Creation</button>
+        <button onClick={handleSubmit}>Finish Collection Creation</button>
       </div>
     </main>
   )

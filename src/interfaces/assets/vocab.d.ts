@@ -38,9 +38,9 @@ export type TPartOfSpeech = keyof typeof EPartOfSpeech;
  * @readonly arbit {ITractable} the universal word
  */
 export interface IVocab_lw extends ITractable {
-    readonly lang:ELanguage;
-    readonly arbit:ITractable;
-    readonly pos:EPartOfSpeech;
+    readonly lang:string; // string for now
+    readonly arbit?:ITractable; // optional for now
+    readonly pos?:EPartOfSpeech;
 }
 
 /**
@@ -62,7 +62,7 @@ export interface IVocab_lw extends ITractable {
 export interface IVocab extends IVocab_lw {
     readonly value:string;
     readonly translation:string;
-    readonly s3Key:string;
+    readonly s3Key?:string; // optional for now
 
     /** @deprecated */
     idArbit?:string;

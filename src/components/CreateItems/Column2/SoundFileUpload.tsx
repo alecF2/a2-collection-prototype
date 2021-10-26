@@ -10,7 +10,7 @@ const SoundFileUpload = ({ setPronunciation }: soundProps) => {
     <section id={styles.container}>
       <label htmlFor="soundUpload">Select a sound file</label>
       <br />
-      <input type="file" name="soundUpload" id="soundUpload" onChange={(e) => setPronunciation(e.target.files ? e.target.files[0] : null)} accept="audio/*" required />
+      <input type="file" name="soundUpload" id="soundUpload" onChange={(e) => setPronunciation(e.target.files ? e.target.files[0] : null)} accept="audio/*" />
     </section>
   )
 }

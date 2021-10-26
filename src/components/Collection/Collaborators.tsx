@@ -1,13 +1,16 @@
 import styles from './Collaborators.module.scss'
 
-import { Dispatch, SetStateAction } from 'react'
-import { IUser } from '../../interfaces'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 
 interface Props {
-  setAuthor: Dispatch<SetStateAction<IUser | undefined>>
+  setAuthorName: Dispatch<SetStateAction<string>>
+  setAuthorEmail: Dispatch<SetStateAction<string>>
+  authorName: string
+  authorEmail: string
 }
 
-const Collaborators = ({ setAuthor }: Props) => {
+const Collaborators = ({ authorName, setAuthorName, authorEmail, setAuthorEmail }: Props) => {
+
   return (
     <section id={styles.container}>
       <div>
@@ -17,7 +20,10 @@ const Collaborators = ({ setAuthor }: Props) => {
           <input type="checkbox" name="emailCheck" id="emailCheck" checked />
         </div>
       </div>
-      <textarea name="collaborators" id="collaborators" placeholder="Emails, or Usernames"></textarea>
+      <div>
+        <input type="email" placeholder="Email" onChange={e => setAuthorEmail(e.target.value)} value={authorEmail} />
+        <input type="text" value={authorName} placeholder="Name" onChange={e => setAuthorName(e.target.value)} />
+      </div>
     </section>
   )
 }

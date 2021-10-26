@@ -79,6 +79,6 @@ export interface IUser_lw extends ITractable {
  * @readonly email {IEmail} an interface for the user's email
  */
 export interface IUser extends IUser_lw {
-    readonly name:IName;
-    readonly email:IEmail;
+    readonly name:string; // modified for now
+    readonly email:IEmail; 
 }

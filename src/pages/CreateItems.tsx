@@ -35,22 +35,40 @@ const CreateItems = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const form = new FormData()
-    form.append("language", language)
-    form.append("word", word)
-    form.append("translation", translation)
-    form.append("example", example)
-    form.append("imageDesc", imageDesc)
-    form.append("image", image as Blob)
-    form.append("pronunciation", pronunciation as Blob)
+    // const form = new FormData()
+    // form.append("language", language)
+    // form.append("word", word)
+    // form.append("translation", translation)
+    // form.append("example", example)
+    // form.append("imageDesc", imageDesc)
+    // form.append("image", image as Blob)
+    // form.append("pronunciation", pronunciation as Blob)
 
-    
+
 
     // const response = await axios.post("http://localhost:4000/add_item", form)
     // console.log(response.data)
 
     if (query.get("append") === "true") {
       // add data
+      const newItem: IVocab = {
+        lang: language,
+        translation: translation,
+        value: word,
+        id: "" // assigned on server
+      }
+
+      const data = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")!) : {}
+      console.log(data)
+
+      if (data.items) {
+        data.items.push(newItem)
+      } else {
+        data.items = [newItem]
+      }
+
+      localStorage.setItem("state", JSON.stringify(data))
+
       history.push("/add_collection")
     }
 
@@ -61,20 +79,8 @@ const CreateItems = () => {
   //   console.log(query.get("append") === "true")
   // }, [])
 
-  useEffect(() => {
-    vocabWord = {
-      arbit: { id: " " },
-      id: "",
-      lang: 0,
-      pos: 0,
-      s3Key: "",
-      translation: translation,
-      value: word,
-    }
-    console.log({
-      vocabWord
-    })
-  }, [language, word, translation, example, imageDesc, image, pronunciation])
+  // useEffect(() => {
+  // }, [language, word, translation, example, imageDesc, image, pronunciation])
 
   return (
     <>
