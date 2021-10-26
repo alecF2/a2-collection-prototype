@@ -14,7 +14,8 @@ As of now this prototype is front-end only.
 
 * clone respository
 * cd into root folder
-* `yarn start`
+* `yarn` to install dependencies
+* `yarn start` to start the app in dev mode
 * browser should open up at http://localhost:3000
 
 
